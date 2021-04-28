@@ -59,6 +59,11 @@ public class NormalFrame extends Frame {
     }
 
     @Override
+    public int getScore(List<Score> nextScore) {
+        return 0;
+    }
+
+    @Override
     public boolean equals(Object o) {
         return super.equals(o);
     }

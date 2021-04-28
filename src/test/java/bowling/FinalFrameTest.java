@@ -7,6 +7,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.stream.Stream;
 
@@ -229,6 +230,27 @@ public class FinalFrameTest {
 
         // then
         assertThat(finalFrame.toPrint()).isEqualTo(expectString);
+    }
+
+    private static Stream<Arguments> getScore() {
+        return Stream.of(
+                arguments(new FinalFrame(Arrays.asList(Score.ONE, Score.SPARE, Score.STRIKE)), 20),
+                arguments(new FinalFrame(Arrays.asList(Score.ONE, Score.TWO)), 3),
+                arguments(new FinalFrame(Arrays.asList(Score.STRIKE, Score.STRIKE, Score.STRIKE)), 30),
+                arguments(new FinalFrame(Arrays.asList(Score.STRIKE, Score.SEVEN, Score.SPARE)), 20)
+        );
+    }
+
+    @ParameterizedTest
+    @MethodSource("getScore")
+    public void getScore_STRIKE(FinalFrame finalFrame, int expectScore) throws Exception {
+        // given
+
+        // when
+        int resultScore = finalFrame.getScore(new ArrayList<>());
+
+        // then
+        assertThat(resultScore).isEqualTo(expectScore);
     }
 
 }

@@ -61,8 +61,12 @@ public class FinalFrame extends Frame {
 
         String result = String.format("%-6s", sb.toString());
         result = String.format("%8s", result);
-
         return result;
+    }
+
+    @Override
+    public int getScore(List<Score> nextScore) {
+        return 0;
     }
 
     private List<Score> add(Score score) {

@@ -9,6 +9,7 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -178,4 +179,45 @@ public class NormalFrameTest {
         assertThat(normalFrame.toPrint()).isEqualTo(expectString);
     }
 
+    private static Stream<Arguments> getScore_STRIKE() {
+        return Stream.of(
+                arguments(Arrays.asList(5, 5), 20),
+                arguments(Arrays.asList(10, 10), 30),
+                arguments(Arrays.asList(0, 4), 14)
+        );
+    }
+
+    @ParameterizedTest
+    @MethodSource("getScore_STRIKE")
+    public void getScore_STRIKE(List<Score> nextScore, int expectScore) throws Exception {
+        // given
+        Frame normalFrame = new NormalFrame(Arrays.asList(Score.STRIKE));
+
+        // when
+        int resultScore = normalFrame.getScore(nextScore);
+
+        // then
+        assertThat(resultScore).isEqualTo(expectScore);
+    }
+
+    private static Stream<Arguments> getScore_SPARE() {
+        return Stream.of(
+                arguments(Arrays.asList(5), 15),
+                arguments(Arrays.asList(10), 20),
+                arguments(Arrays.asList(0), 10)
+        );
+    }
+
+    @ParameterizedTest
+    @MethodSource("getScore_SPARE")
+    public void getScore_SPARE(List<Score> nextScore, int expectScore) throws Exception {
+        // given
+        Frame normalFrame = new NormalFrame(Arrays.asList(Score.STRIKE));
+
+        // when
+        int resultScore = normalFrame.getScore(nextScore);
+
+        // then
+        assertThat(resultScore).isEqualTo(expectScore);
+    }
 }

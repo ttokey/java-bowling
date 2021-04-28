@@ -13,6 +13,8 @@ public abstract class Frame {
 
     public abstract String toPrint();
 
+    public abstract int getScore(List<Score> nextScore);
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
