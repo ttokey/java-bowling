@@ -1,22 +1,20 @@
 package bowling.domain.frame;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 import java.util.stream.IntStream;
 
 public final class Frames {
     public static final Integer FINAL_FRAME = 9;
 
-    private final List<Frame> frames;
+    private final Frame headFrame;
 
 
     public Frames() {
         this(generateFrames());
     }
 
-    public Frames(List<Frame> frames) {
-        this.frames = frames;
+    public Frames(Frame headFrame) {
+        this.headFrame = headFrame;
     }
 
     public Frames addScore(int score) throws Exception {
@@ -45,16 +43,15 @@ public final class Frames {
         return this.frames.get(index);
     }
 
-    private static List<Frame> generateFrames() {
-        List<Frame> result = new ArrayList<>();
-        IntStream.range(0, FINAL_FRAME)
-                .forEach(i -> result.add(new NormalFrame()));
-        result.add(new FinalFrame());
-        IntStream.range(0, FINAL_FRAME)
-                .forEach(i -> result
-                        .get(i)
-                        .nextFrame(result.get(i + 1)));
-        return result;
+    private static Frame generateFrames() {
+        Frame headFrame = NormalFrame.nextNormalFrame();
+        Frame nextFrame = headFrame.nextFrame;
+        for (int i = 0; i < FINAL_FRAME; i++) {
+            nextFrame.nextFrame(NormalFrame.nextNormalFrame());
+            nextFrame = nextFrame.nextFrame;
+        }
+        nextFrame.nextFrame(NormalFrame.nextFinalFrame());
+        return headFrame;
     }
 
     @Override
