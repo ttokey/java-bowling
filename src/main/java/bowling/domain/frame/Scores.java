@@ -8,6 +8,9 @@ import java.util.Objects;
 public abstract class Scores {
     protected List<Score> scores;
 
+    public Score firstScore;
+    public Score secondScore;
+
     public abstract boolean isFinished();
 
     public abstract void addScore(int score) throws Exception;
