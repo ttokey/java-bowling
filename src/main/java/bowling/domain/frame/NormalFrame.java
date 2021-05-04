@@ -6,12 +6,41 @@ import java.util.Optional;
 
 public class NormalFrame extends Frame {
 
-    public NormalFrame(List<Score> scores) {
-        this.scores = new NormalScores(scores);
+    private NormalFrame(NormalScores normalScores, boolean nextFinalFrame) {
+        this.scores = normalScores;
+        this.nextFrame = new NormalFrame();
+        if (nextFinalFrame) {
+            this.nextFrame = new FinalFrame();
+        }
     }
 
-    public NormalFrame() {
+    private NormalFrame(boolean nextFinalFrame) {
         this.scores = new NormalScores();
+        this.nextFrame = new NormalFrame();
+        if (nextFinalFrame) {
+            this.nextFrame = new FinalFrame();
+        }
+    }
+
+    private NormalFrame() {
+        this.scores = new NormalScores();
+        this.nextFrame = null;
+    }
+
+    public static NormalFrame nextFinalFrame() {
+        return new NormalFrame(true);
+    }
+
+    public static NormalFrame nextFinalFrame(NormalScores normalScores) {
+        return new NormalFrame(normalScores, true);
+    }
+
+    public static NormalFrame nextNormalFrame() {
+        return new NormalFrame(false);
+    }
+
+    public static NormalFrame nextNormalFrame(NormalScores normalScores) {
+        return new NormalFrame(normalScores, false);
     }
 
     @Override
