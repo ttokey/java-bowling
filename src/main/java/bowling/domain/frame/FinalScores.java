@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FinalScores extends Scores {
+    public Score thirdScore;
 
+    
     public FinalScores() {
         this.scores = new ArrayList<>();
     }

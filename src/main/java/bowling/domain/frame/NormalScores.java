@@ -1,16 +1,12 @@
 package bowling.domain.frame;
 
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class NormalScores extends Scores {
-    public NormalScores() {
-        this.scores = new ArrayList<>();
-    }
 
-    public NormalScores(List<Score> scores) {
-        this.scores = scores;
+    public NormalScores() {
+        this.status = Status.NOT_FINISH;
     }
 
     @Override
@@ -29,22 +25,50 @@ public class NormalScores extends Scores {
 
     @Override
     public void addScore(int score) throws Exception {
-        if (isFinished()) {
+        if (!status.equals(Status.NOT_FINISH)) {
             throw new Exception("종료된 프레임입니다.");
         }
-        if (scores.size() == 0) {
-            this.scores.add(Score.valueOf(score));
+        validScore(score);
+        if (firstScore == null) {
+            setFirstScore(score);
             return;
         }
-        if (scores.size() == 1) {
-            this.scores.add(Score.valueOf(scores.get(0), score));
+        if (secondScore == null) {
+            setSecondScore(score);
             return;
+        }
+    }
+
+    private void setFirstScore(int score) {
+        firstScore = Score.valueOf(score);
+        if (firstScore.equals(Score.STRIKE)) {
+            status = Status.STRIKE;
+        }
+    }
+
+    private void setSecondScore(int score) {
+        secondScore = Score.valueOf(score);
+        if (firstScore.equals(Score.STRIKE)) {
+            status = Status.STRIKE;
+        }
+    }
+
+    private void validScore(int score) {
+        if (score > 10) {
+            throw new IllegalArgumentException("score는 10을 넘을 수 없습니다.");
+        }
+        if (firstScore.getScore() + score > 10) {
+            throw new IllegalArgumentException("점수의 합은 10을 넘을 수 없습니다.");
         }
     }
 
     @Override
     public List<Score> getScores() {
         return scores;
+    }
+
+    private void status(Status status) {
+
     }
 
 }

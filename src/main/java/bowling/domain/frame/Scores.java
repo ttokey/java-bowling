@@ -6,10 +6,9 @@ import java.util.List;
 import java.util.Objects;
 
 public abstract class Scores {
-    protected List<Score> scores;
-
     public Score firstScore;
     public Score secondScore;
+    public Status status;
 
     public abstract boolean isFinished();
 

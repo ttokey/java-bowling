@@ -11,6 +11,7 @@ public class FinalFrame extends Frame {
 
     public FinalFrame() {
         this.scores = new FinalScores();
+        this.nextFrame = null;
     }
 
     @Override
